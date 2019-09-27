@@ -67,6 +67,12 @@ class KglLwjgl : Kgl {
         GL.glCompileShader(shaderId)
     }
 
+    override fun createBuffer(): GlBuffer {
+        val array = IntArray(1)
+        GL.glGenBuffers(array)
+        return if (array[0] == 0) throw Exception() else array[0]
+    }
+
     override fun createBuffers(count: Int): Array<GlBuffer> {
         val array = IntArray(count)
         GL.glGenBuffers(array)
@@ -84,6 +90,12 @@ class KglLwjgl : Kgl {
         } else {
             shader
         }
+    }
+
+    override fun createTexture(): Texture {
+        val array = IntArray(1)
+        GL.glGenTextures(array)
+        return if (array[0] == 0) throw Exception() else array[0]
     }
 
     override fun createTextures(n: Int): Array<Texture> {

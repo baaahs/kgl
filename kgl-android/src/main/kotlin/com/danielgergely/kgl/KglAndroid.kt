@@ -50,6 +50,13 @@ class KglAndroid : Kgl {
 
     override fun getAttribLocation(programId: Program, name: String) = GL.glGetAttribLocation(programId, name)
     override fun bindAttribLocation(programId: Program, index: Int, name: String) = GL.glBindAttribLocation(programId, index, name)
+
+    override fun createBuffer(): GlBuffer {
+        val buffers = IntArray(1)
+        GL.glGenBuffers(1, buffers, 0)
+        return if (buffers[0] == 0) throw Exception() else buffers[0]
+    }
+
     override fun createBuffers(count: Int): Array<GlBuffer> {
         val buffers = IntArray(count)
         GL.glGenBuffers(count, buffers, 0)
@@ -98,6 +105,12 @@ class KglAndroid : Kgl {
     override fun clear(mask: Int) = GL.glClear(mask)
 
     override fun clearColor(r: Float, g: Float, b: Float, a: Float) = GL.glClearColor(r, g, b, a)
+
+    override fun createTexture(): Texture {
+        val ints = IntArray(1)
+        GL.glGenTextures(1, ints, 0)
+        return if (ints[0] == 0) throw Exception() else ints[0]
+    }
 
     override fun createTextures(n: Int) : Array<Texture> {
         val ints = IntArray(n)

@@ -28,6 +28,7 @@ interface Kgl {
     fun enableVertexAttribArray(location: Int)
     fun disableVertexAttribArray(location: Int)
 
+    fun createBuffer(): GlBuffer
     fun createBuffers(count: Int): Array<GlBuffer>
     fun bindBuffer(target: Int, bufferId: GlBuffer?)
     fun bufferData(target: Int, sourceData: Buffer, size: Int, usage: Int)
@@ -59,6 +60,7 @@ interface Kgl {
     fun clearColor(r: Float, g: Float, b: Float, a: Float)
     fun clear(mask: Int)
 
+    fun createTexture(): Texture
     fun createTextures(n: Int) : Array<Texture>
     fun deleteTexture(texture: Texture)
     fun texImage2D(target: Int, level: Int, internalFormat: Int, border: Int, resource: TextureResource)
