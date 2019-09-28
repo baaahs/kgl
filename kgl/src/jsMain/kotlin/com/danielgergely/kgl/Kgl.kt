@@ -46,6 +46,7 @@ class KglJs(private val gl: WebGLRenderingContext) : Kgl  {
     override fun enable(cap : Int) = gl.enable(cap)
     override fun disable(cap : Int) = gl.disable(cap)
 
+    override fun createBuffer(): GlBuffer = gl.createBuffer() ?: throw Exception()
     override fun createBuffers(count: Int): Array<GlBuffer> = Array(count) { gl.createBuffer() ?: throw Exception() }
 
     override fun bindBuffer(target: Int, bufferId: GlBuffer?) = gl.bindBuffer(target, bufferId.unsafeCast<WebGLBuffer>())
@@ -87,10 +88,13 @@ class KglJs(private val gl: WebGLRenderingContext) : Kgl  {
     override fun blendFunc(sFactor: Int, dFactor: Int) = gl.blendFunc(sFactor, dFactor)
     override fun cullFace(mode: Int) = gl.cullFace(mode)
 
+    override fun createTexture(): Texture = gl.createTexture() ?: throw Exception()
     override fun createTextures(n: Int): Array<Texture> = Array(n) { gl.createTexture() ?: throw Exception() }
     override fun deleteTexture(texture: Texture) = gl.deleteTexture(texture.unsafeCast<WebGLTexture>())
     override fun texImage2D(target: Int, level: Int, internalFormat: Int, border: Int, resource: TextureResource)
             = gl.texImage2D(target, level, internalFormat, GL_RGBA, GL_UNSIGNED_BYTE, resource.image)
+    override fun texImage2D(target: Int, level: Int, internalFormat: Int, width: Int, height: Int, border: Int, format: Int, type: Int, buffer: Buffer)
+            = gl.texImage2D(target, level, internalFormat, width, height, border, format, type, buffer.buffer.asDynamic().subarray(buffer.position))
 
 
     override fun activeTexture(texture: Int) = gl.activeTexture(texture)
@@ -98,8 +102,32 @@ class KglJs(private val gl: WebGLRenderingContext) : Kgl  {
     override fun generateMipmap(target: Int) = gl.generateMipmap(target)
     override fun texParameteri(target: Int, pname: Int, value: Int) = gl.texParameteri(target, pname, value)
 
+    override fun createVertexArray(): VertexArrayObject?
+            = (gl as WebGL2RenderingContext).createVertexArray()
+    override fun bindVertexArray(vertexArrayObject: VertexArrayObject?)
+            = (gl as WebGL2RenderingContext).bindVertexArray(vertexArrayObject.unsafeCast<WebGLVertexArrayObject>())
+    override fun deleteVertexArray(vertexArrayObject: VertexArrayObject)
+            = (gl as WebGL2RenderingContext).deleteVertexArray(vertexArrayObject.unsafeCast<WebGLVertexArrayObject>())
+
     override fun drawArrays(mode: Int, first: Int, count: Int) = gl.drawArrays(mode, first, count)
 
     override fun getError(): Int = gl.getError()
     override fun finish() = gl.finish()
+
+    override fun bindFramebuffer(target: Int, framebuffer: Framebuffer?) = gl.bindFramebuffer(target, framebuffer.unsafeCast<WebGLFramebuffer>())
+    override fun createFramebuffer(): Framebuffer? = gl.createFramebuffer()
+    override fun deleteFramebuffer(framebuffer: Framebuffer) = gl.deleteFramebuffer(framebuffer.unsafeCast<WebGLFramebuffer>())
+    override fun checkFramebufferStatus(target: Int): Int = gl.checkFramebufferStatus(target)
+    override fun framebufferTexture2D(target: Int, attachment: Int, textarget: Int, texture: Texture, level: Int) = gl.framebufferTexture2D(target, attachment, textarget, texture.unsafeCast<WebGLTexture>(), level)
+    override fun isFramebuffer(framebuffer: Framebuffer): Boolean = gl.isFramebuffer(framebuffer.unsafeCast<WebGLFramebuffer>())
+
+    override fun bindRenderbuffer(target: Int, renderbuffer: Renderbuffer?) = gl.bindRenderbuffer(target, renderbuffer.unsafeCast<WebGLRenderbuffer>())
+    override fun createRenderbuffer(): Renderbuffer? = gl.createRenderbuffer()
+    override fun deleteRenderbuffer(renderbuffer: Renderbuffer) = gl.deleteRenderbuffer(renderbuffer.unsafeCast<WebGLRenderbuffer>())
+    override fun framebufferRenderbuffer(target: Int, attachment: Int, renderbuffertarget: Int, renderbuffer: Renderbuffer) = gl.framebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer.unsafeCast<WebGLRenderbuffer>())
+    override fun isRenderbuffer(renderbuffer: Renderbuffer): Boolean = gl.isRenderbuffer(renderbuffer.unsafeCast<WebGLRenderbuffer>())
+    override fun renderbufferStorage(target: Int, internalformat: Int, width: Int, height: Int) = gl.renderbufferStorage(target, internalformat, width, height)
+
+    override fun readPixels(x: Int, y: Int, width: Int, height: Int, format: Int, type: Int, buffer: Buffer)
+            = gl.readPixels(x, y, width, height, format, type, buffer.buffer.unsafeCast<ArrayBufferView>())
 }
