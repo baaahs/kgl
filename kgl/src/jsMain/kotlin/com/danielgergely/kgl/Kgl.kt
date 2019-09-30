@@ -119,14 +119,14 @@ class KglJs(private val gl: WebGLRenderingContext) : Kgl  {
     override fun finish() = gl.finish()
 
     override fun bindFramebuffer(target: Int, framebuffer: Framebuffer?) = gl.bindFramebuffer(target, framebuffer.unsafeCast<WebGLFramebuffer>())
-    override fun createFramebuffer(): Framebuffer? = gl.createFramebuffer()
+    override fun createFramebuffer(): Framebuffer = gl.createFramebuffer() ?: throw Exception()
     override fun deleteFramebuffer(framebuffer: Framebuffer) = gl.deleteFramebuffer(framebuffer.unsafeCast<WebGLFramebuffer>())
     override fun checkFramebufferStatus(target: Int): Int = gl.checkFramebufferStatus(target)
     override fun framebufferTexture2D(target: Int, attachment: Int, textarget: Int, texture: Texture, level: Int) = gl.framebufferTexture2D(target, attachment, textarget, texture.unsafeCast<WebGLTexture>(), level)
     override fun isFramebuffer(framebuffer: Framebuffer): Boolean = gl.isFramebuffer(framebuffer.unsafeCast<WebGLFramebuffer>())
 
     override fun bindRenderbuffer(target: Int, renderbuffer: Renderbuffer?) = gl.bindRenderbuffer(target, renderbuffer.unsafeCast<WebGLRenderbuffer>())
-    override fun createRenderbuffer(): Renderbuffer? = gl.createRenderbuffer()
+    override fun createRenderbuffer(): Renderbuffer = gl.createRenderbuffer() ?: throw Exception()
     override fun deleteRenderbuffer(renderbuffer: Renderbuffer) = gl.deleteRenderbuffer(renderbuffer.unsafeCast<WebGLRenderbuffer>())
     override fun framebufferRenderbuffer(target: Int, attachment: Int, renderbuffertarget: Int, renderbuffer: Renderbuffer) = gl.framebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer.unsafeCast<WebGLRenderbuffer>())
     override fun isRenderbuffer(renderbuffer: Renderbuffer): Boolean = gl.isRenderbuffer(renderbuffer.unsafeCast<WebGLRenderbuffer>())

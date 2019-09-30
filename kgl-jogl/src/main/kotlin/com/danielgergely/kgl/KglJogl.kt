@@ -91,7 +91,7 @@ class KglJogl(@JvmField private val gl: GL) : Kgl {
     override fun createBuffer(): GlBuffer {
         val buffers = IntArray(1)
         gl.glGenBuffers(1, buffers, 0)
-        return if (buffers[0] == 0) throw Exception() else buffers[0]
+        return buffers[0]
     }
 
     override fun createBuffers(count: Int): Array<GlBuffer> {
@@ -173,7 +173,7 @@ class KglJogl(@JvmField private val gl: GL) : Kgl {
     override fun createTexture(): Texture {
         val buffer = IntBuffer.allocate(1)
         gl.glGenTextures(1, buffer)
-        return if (buffer[0] == 0) throw Exception() else buffer[0]
+        return buffer[0]
     }
 
     override fun createTextures(n: Int): Array<Texture> {
@@ -208,7 +208,7 @@ class KglJogl(@JvmField private val gl: GL) : Kgl {
     {
         val ints = IntArray(1)
         gl.glGenVertexArrays(1, ints, 0)
-        return if (ints[0] == 0) null else ints[0]
+        return ints[0]
     }
     override fun bindVertexArray(vertexArrayObject: VertexArrayObject?)
             = gl.glBindVertexArray(vertexArrayObject ?: 0)
@@ -221,10 +221,10 @@ class KglJogl(@JvmField private val gl: GL) : Kgl {
     override fun finish() = gl.glFinish()
 
     override fun bindFramebuffer(target: Int, framebuffer: Framebuffer?) = gl.glBindFramebuffer(target, framebuffer ?: 0)
-    override fun createFramebuffer(): Framebuffer? {
+    override fun createFramebuffer(): Framebuffer {
         val ints = IntArray(1)
         gl.glGenFramebuffers(1, ints, 0)
-        return if (ints[0] == 0) null else ints[0]
+        return ints[0]
     }
     override fun deleteFramebuffer(framebuffer: Framebuffer) = gl.glDeleteFramebuffers(1, intArrayOf(framebuffer), 0)
     override fun checkFramebufferStatus(target: Int): Int = gl.glCheckFramebufferStatus(target)
@@ -232,10 +232,10 @@ class KglJogl(@JvmField private val gl: GL) : Kgl {
     override fun isFramebuffer(framebuffer: Framebuffer): Boolean = gl.glIsFramebuffer(framebuffer)
 
     override fun bindRenderbuffer(target: Int, renderbuffer: Renderbuffer?) = gl.glBindRenderbuffer(target, renderbuffer ?: 0)
-    override fun createRenderbuffer(): Renderbuffer? {
+    override fun createRenderbuffer(): Renderbuffer {
         val ints = IntArray(1)
         gl.glGenRenderbuffers(1, ints, 0)
-        return if (ints[0] == 0) null else ints[0]
+        return ints[0]
     }
     override fun deleteRenderbuffer(renderbuffer: Renderbuffer) = gl.glDeleteRenderbuffers(1, intArrayOf(renderbuffer), 0)
     override fun framebufferRenderbuffer(target: Int, attachment: Int, renderbuffertarget: Int, renderbuffer: Renderbuffer) = gl.glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer)

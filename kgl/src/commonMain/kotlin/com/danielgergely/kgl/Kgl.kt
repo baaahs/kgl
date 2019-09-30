@@ -89,14 +89,14 @@ interface Kgl {
     fun finish()
 
     fun bindFramebuffer(target: Int, framebuffer: Framebuffer?)
-    fun createFramebuffer(): Framebuffer?
+    fun createFramebuffer(): Framebuffer
     fun deleteFramebuffer(framebuffer: Framebuffer)
     fun checkFramebufferStatus(target: Int): Int
     fun framebufferTexture2D(target: Int, attachment: Int, textarget: Int, texture: Texture, level: Int)
     fun isFramebuffer(framebuffer: Framebuffer): Boolean
 
     fun bindRenderbuffer(target: Int, renderbuffer: Renderbuffer?)
-    fun createRenderbuffer(): Renderbuffer?
+    fun createRenderbuffer(): Renderbuffer
     fun deleteRenderbuffer(renderbuffer: Renderbuffer)
     fun framebufferRenderbuffer(target: Int, attachment: Int, renderbuffertarget: Int, renderbuffer: Renderbuffer)
     fun isRenderbuffer(renderbuffer: Renderbuffer): Boolean
