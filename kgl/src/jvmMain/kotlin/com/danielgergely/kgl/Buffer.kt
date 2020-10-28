@@ -4,14 +4,14 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-actual abstract class Buffer(@JvmField private val buffer: java.nio.Buffer) {
+actual abstract class Buffer(@JvmField val buffer: java.nio.Buffer) {
     actual var position: Int
         get() = buffer.position()
         set(value) {
             buffer.position(value)
         }
 
-    fun <T> withIoBuffer(offset: Int, fn: (buffer: java.nio.Buffer) -> T): T {
+    inline fun <T> withIoBuffer(offset: Int, fn: (buffer: java.nio.Buffer) -> T): T {
         val origPosition = this.position
         this.position = offset
         try {
@@ -41,7 +41,7 @@ actual class FloatBuffer private constructor(buffer: FloatBuffer): Buffer(buffer
     actual fun put(floatArray: FloatArray) = put(floatArray, 0, floatArray.size)
 
     actual fun put(floatArray: FloatArray, offset: Int, length: Int) {
-        floatBuffer.put(floatArray, 0, floatArray.size)
+        floatBuffer.put(floatArray, offset, length)
     }
 
     actual operator fun set(pos: Int, f: Float) {
@@ -80,7 +80,7 @@ actual class ByteBuffer private constructor(buffer: ByteBuffer): Buffer(buffer) 
     actual fun put(byteArray: ByteArray) = put(byteArray, 0, byteArray.size)
 
     actual fun put(byteArray: ByteArray, offset: Int, length: Int) {
-        byteBuffer.put(byteArray, 0, byteArray.size)
+        byteBuffer.put(byteArray, offset, length)
     }
 
     actual operator fun set(pos: Int, b: Byte) {
