@@ -5,6 +5,10 @@ import org.khronos.webgl.*
 actual abstract class Buffer(val buffer: ArrayBufferView) {
     actual var position: Int = 0
 
+    actual abstract val size: Int
+
+    actual abstract val sizeInBytes: Int
+
     inline fun <T> withGlBuffer(offset: Int, fn: (buffer: ArrayBufferView) -> T): T {
         return fn(buffer.asDynamic().subarray(offset))
     }
@@ -16,6 +20,12 @@ actual class FloatBuffer constructor(buffer: Float32Array) : Buffer(buffer) {
     actual constructor(size: Int) : this(FloatArray(size))
 
     private val floatBuffer: Float32Array = buffer
+
+    override val size: Int
+        get() = floatBuffer.length
+
+    override val sizeInBytes: Int
+        get() = buffer.byteLength
 
     actual fun put(f: Float) {
         floatBuffer[position] = f
@@ -53,6 +63,12 @@ actual class ByteBuffer constructor(buffer: Uint8Array) : Buffer(buffer) {
     actual constructor(size: Int) : this(ByteArray(size))
 
     private val byteBuffer: Uint8Array = buffer
+
+    override val size: Int
+        get() = byteBuffer.length
+
+    override val sizeInBytes: Int
+        get() = buffer.byteLength
 
     actual fun put(b: Byte) {
         byteBuffer[position] = b

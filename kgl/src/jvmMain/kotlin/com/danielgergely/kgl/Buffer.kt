@@ -11,6 +11,9 @@ actual abstract class Buffer(@JvmField val buffer: java.nio.Buffer) {
             buffer.position(value)
         }
 
+    actual abstract val size: Int
+    actual abstract val sizeInBytes: Int
+
     inline fun <T> withIoBuffer(offset: Int, fn: (buffer: java.nio.Buffer) -> T): T {
         val origPosition = this.position
         this.position = offset
@@ -33,6 +36,12 @@ actual class FloatBuffer private constructor(buffer: FloatBuffer): Buffer(buffer
     }
 
     private val floatBuffer: FloatBuffer = buffer
+
+    override val size: Int
+        get() = floatBuffer.capacity()
+
+    override val sizeInBytes: Int
+        get() = floatBuffer.capacity() * 4
 
     actual fun put(f: Float) {
         floatBuffer.put(f)
@@ -72,6 +81,12 @@ actual class ByteBuffer private constructor(buffer: ByteBuffer): Buffer(buffer) 
     }
 
     private val byteBuffer: ByteBuffer = buffer
+
+    override val size: Int
+        get() = byteBuffer.capacity()
+
+    override val sizeInBytes: Int
+        get() = byteBuffer.capacity() * 4
 
     actual fun put(b: Byte) {
         byteBuffer.put(b)

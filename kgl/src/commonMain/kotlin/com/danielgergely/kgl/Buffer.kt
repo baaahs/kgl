@@ -2,6 +2,8 @@ package com.danielgergely.kgl
 
 expect abstract class Buffer {
     var position: Int
+    abstract val size: Int
+    abstract val sizeInBytes: Int
 }
 
 expect class FloatBuffer : Buffer {
